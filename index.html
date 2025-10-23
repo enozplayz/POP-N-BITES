@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pop n’ Bites — Homemade Cake Pops Made with Love & Color</title>
+  <meta name="description" content="Pop n’ Bites — handcrafted homemade cake pops. Explore flavors, gallery, and order custom cake pops made with love and color." />
+  <meta name="keywords" content="cake pops, homemade, dessert, Pop n' Bites, pastel sweets, handcrafted desserts" />
+  <meta name="author" content="Pop n' Bites" />
+
+  <!--
+    Soft & Dreamy palette (from your image):
+    --berry: #C24B6E (deep berry pink)
+    --blush: #FF9EA7
+    --baby:  #FFC9D2
+    --cream: #FFEFF3
+  -->
+
+  <style>
+    :root{
+      --berry: #C24B6E;
+      --blush: #FF9EA7;
+      --baby: #FFC9D2;
+      --cream: #FFEFF3;
+
+      --muted: #6b5461;
+      --card-radius: 14px;
+      --round: 20px;
+      --shadow: 0 10px 24px rgba(60,30,50,0.07), 0 4px 8px rgba(60,30,50,0.03);
+      --max-width: 1100px;
+      --glass: rgba(255,255,255,0.65);
+      --text: #3a2e36;
+    }
+
+    /* Basic reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Poppins", "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: linear-gradient(180deg, var(--cream), #fff 30%);
+      scroll-behavior: smooth;
+      line-height:1.45;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Helpful comment:
+       If you later want to use local font files, add @font-face rules here
+       and keep font-family names "Fredoka One", "Josefin Sans", "Poppins" as used below.
+    */
+
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:28px;
+    }
+
+    /* Sticky nav */
+    header{ position:sticky; top:14px; z-index:40; display:flex; justify-content:center; }
+    nav.navbar{
+      width:100%;
+      max-width:var(--max-width);
+      background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.7));
+      backdrop-filter: blur(6px);
+      border-radius:30px;
+      padding:10px 16px;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      box-shadow: var(--shadow);
+      justify-content:space-between;
+    }
+    .brand{ display:flex; gap:12px; align-items:center; }
+    .brand img{ width:56px; height:56px; border-radius:50%; object-fit:cover; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+    .brand h1{
+      margin:0;
+      font-size:1.05rem;
+      font-weight:800;
+      letter-spacing:0.3px;
+      color:var(--berry);
+      /* playful heading — replace with Fredoka/Baloo local font if available */
+      font-family: "Fredoka One", "Baloo 2", "Poppins", system-ui;
+    }
+
+    .nav-links{ display:flex; gap:8px; align-items:center; }
+    .nav-links a{
+      padding:10px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:700;
+      transition: all 220ms ease;
+      font-family: "Josefin Sans", "Poppins";
+    }
+    .nav-links a:hover{
+      transform:translateY(-3px);
+      color: #fff;
+      background: linear-gradient(90deg, rgba(194,75,110,0.95), rgba(255,158,167,0.95));
+      box-shadow: 0 10px 24px rgba(194,75,110,0.12);
+    }
+
+    /* Loading overlay */
+    .loader-wrap{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(135deg, rgba(255,158,167,0.08), rgba(255,201,210,0.04));
+      z-index:9999;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    .loader{
+      text-align:center;
+      background: linear-gradient(180deg, var(--blush), var(--baby));
+      padding:28px;
+      border-radius:28px;
+      box-shadow: var(--shadow);
+      display:flex;
+      gap:16px;
+      align-items:center;
+      flex-direction:column;
+    }
+    .loader .logo{
+      width:110px;
+      height:110px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      animation:pop 900ms cubic-bezier(.22,.9,.35,1) infinite alternate;
+      box-shadow: 0 10px 30px rgba(95,50,80,0.06);
+    }
+    .loader .logo img{ width:100%; height:100%; object-fit:cover; }
+    .loader p{ margin:0; font-weight:700; color:var(--berry); }
+
+    @keyframes pop{
+      0%{ transform: translateY(0) scale(1); }
+      100%{ transform: translateY(-8px) scale(1.03); }
+    }
+    .loader-wrap.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+
+    /* Hero */
+    .hero{
+      border-radius:24px;
+      padding:36px;
+      display:grid;
+      gap:18px;
+      align-items:center;
+      text-align:center;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,158,167,0.14), transparent 6%),
+        radial-gradient(circle at 90% 80%, rgba(255,201,210,0.12), transparent 8%),
+        linear-gradient(135deg, rgba(255,225,228,0.6), rgba(255,245,245,0.4));
+      box-shadow: var(--shadow);
+    }
+    .hero .tag{ color:var(--berry); font-weight:800; font-size:.98rem; letter-spacing:.4px; }
+    .hero h2{
+      margin:0;
+      font-size:clamp(1.3rem, 3.2vw, 2rem);
+      line-height:1.05;
+      color:#5a3742;
+      font-family: "Fredoka One", "Baloo 2", "Poppins";
+    }
+    .hero p{ margin:10px auto 16px; max-width:740px; color:var(--muted); }
+
+    .cta{ display:inline-grid; grid-auto-flow:column; gap:12px; justify-content:center; }
+    .btn{
+      border:0;
+      padding:12px 18px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:800;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+      text-decoration:none;
+      color:white;
+      background: linear-gradient(90deg, var(--berry), var(--blush));
+    }
+    .btn.secondary{ background: linear-gradient(90deg, var(--baby), var(--cream)); color:#5a3440; box-shadow:none; border:1px solid rgba(90,50,70,0.04) }
+    .btn:hover{ transform: translateY(-6px); box-shadow:0 20px 42px rgba(194,75,110,0.12); opacity:0.98; }
+
+    section{ margin-top:28px; padding:22px; border-radius:20px; }
+
+    /* About */
+    .about{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      background: linear-gradient(180deg, rgba(255,201,210,0.14), rgba(255,239,243,0.6));
+      box-shadow: var(--shadow);
+      padding:20px;
+      flex-wrap:wrap;
+    }
+    .about img{ width:220px; height:160px; object-fit:cover; border-radius:14px; box-shadow:0 8px 18px rgba(0,0,0,0.06); }
+    .about p{ flex:1; min-width:220px; color:var(--muted); }
+
+    /* Flavors */
+    .flavors{
+      background: linear-gradient(180deg, rgba(255,225,228,0.35), rgba(255,239,243,0.6));
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+    .flavor-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+      margin-top:14px;
+    }
+    .card{
+      background:var(--glass);
+      border-radius:var(--card-radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+      transition: transform .22s ease, box-shadow .22s ease;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .card:hover{ transform: translateY(-8px); box-shadow:0 24px 48px rgba(0,0,0,0.08); }
+    .card img{ width:110px; height:110px; object-fit:cover; border-radius:12px; flex-shrink:0; }
+    .card h3{ margin:0; font-size:1.05rem; color:#5e3846; font-family:"Josefin Sans", "Poppins"; }
+    .card p{ margin:6px 0 0; color:var(--muted); font-size:.95rem; }
+
+    /* Gallery */
+    .gallery{
+      background: linear-gradient(180deg, rgba(255,242,244,0.6), rgba(255,239,243,0.8));
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    .gallery-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .gallery-grid img{
+      width:100%;
+      height:170px;
+      object-fit:cover;
+      border-radius:12px;
+      transition: transform 260ms ease, box-shadow 260ms ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+    .gallery-grid img:hover{ transform: translateY(-8px) scale(1.03); box-shadow:0 26px 60px rgba(0,0,0,0.08); }
+
+    /* Contact */
+    .contact{
+      background: linear-gradient(180deg, rgba(255,201,210,0.12), rgba(255,239,243,0.4));
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+    form.contact-form{
+      display:grid;
+      gap:12px;
+      grid-template-columns: 1fr 1fr;
+    }
+    form.contact-form input, form.contact-form textarea{
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(110,70,90,0.06);
+      font-size:.95rem;
+      resize:vertical;
+      background: white;
+    }
+    form.contact-form textarea{ grid-column: 1 / -1; min-height:120px; }
+    .send{ grid-column: 1 / -1; justify-self:start; }
+
+    /* Reviews / Newsletter */
+    .reviews{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      background:linear-gradient(180deg, rgba(255,225,228,0.16), rgba(255,239,243,0.44));
+      padding:16px;
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      margin-top:8px;
+    }
+    .review{
+      background: white;
+      padding:14px;
+      border-radius:12px;
+      flex:1 1 220px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+      transition: transform .18s ease;
+    }
+    .review:hover{ transform: translateY(-6px); }
+    .review strong{ color:var(--berry); }
+
+    .newsletter{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .newsletter input[type="email"]{
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,0.06);
+      min-width:220px;
+      background:white;
+    }
+    .newsletter .nbtn{
+      background: linear-gradient(90deg, var(--berry), var(--blush));
+      border:0;
+      color:white;
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .newsletter .nbtn:hover{ transform:translateY(-4px); box-shadow:0 14px 32px rgba(194,75,110,0.12); }
+
+    /* Footer */
+    footer{
+      margin-top:22px;
+      padding:16px;
+      background: linear-gradient(90deg, rgba(255,158,167,0.26), rgba(255,201,210,0.18));
+      border-radius:16px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    footer small{ color: #5a3b4a; font-weight:600; }
+
+    .socials a{ display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background: rgba(255,255,255,0.7); text-decoration:none; box-shadow:0 6px 14px rgba(0,0,0,0.04); }
+    .socials svg{ width:18px; height:18px; fill: #6b4a64; }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .flavor-grid{ grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid{ grid-template-columns: repeat(2,1fr); }
+      .brand h1{ font-size:0.95rem; }
+      form.contact-form{ grid-template-columns: 1fr; }
+    }
+    @media (max-width:640px){
+      .flavor-grid{ grid-template-columns: 1fr; }
+      .gallery-grid{ grid-template-columns: 1fr; }
+      .hero h2{ font-size:1.45rem; }
+      nav.navbar{ padding:10px; gap:12px; }
+    }
+
+    /* small utilities */
+    .muted { color:var(--muted); }
+    .sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div class="loader-wrap" id="loader" role="status" aria-live="polite">
+    <div class="loader" aria-hidden="false">
+      <div class="logo" aria-hidden="true">
+        <img src="Pop images/logo.png" alt="Pop n' Bites circular logo">
+      </div>
+      <p>Loading Sweetness…</p>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header>
+    <nav class="navbar" aria-label="Main navigation">
+      <div class="brand">
+        <img src="Pop images/logo.png" alt="Pop n' Bites logo">
+        <h1>Pop n’ Bites</h1>
+      </div>
+
+      <div class="nav-links" role="navigation" aria-label="Section links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#flavors">Flavors</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- HOME / HERO -->
+    <section id="home" class="hero" aria-labelledby="home-title">
+      <div style="display:flex; justify-content:center; gap:14px; align-items:center; flex-wrap:wrap;">
+        <img src="Pop images/logo.png" alt="Pop n' Bites logo" style="width:84px;height:84px;border-radius:50%;object-fit:cover;box-shadow:0 8px 18px rgba(0,0,0,0.06)">
+        <div style="text-align:center;">
+          <div class="tag">Homemade & Handcrafted</div>
+          <h2 id="home-title">Homemade Cake Pops Made with Love & Color.</h2>
+          <p style="margin:10px auto 16px; max-width:720px; color:var(--muted);">Small-batch, handcrafted cake pops featuring soft pastel colors, fine textures, and delicate decorations. Perfect for parties, gifts, or a special treat.</p>
+          <div class="cta">
+            <a class="btn" href="#flavors">Explore Flavors</a>
+            <a class="btn secondary" href="#contact">Order & Contact</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about" aria-labelledby="about-title">
+      <img src="Pop images/about.jpg" alt="Baked cake pops on display">
+      <div>
+        <h3 id="about-title" style="margin-top:0; font-family:'Josefin Sans', 'Poppins';">About Pop n’ Bites</h3>
+        <p>At Pop n’ Bites, every cake pop is baked, dipped and decorated by hand. We blend fun color palettes with thoughtfully sourced ingredients to create delicate, delightful treats for celebrations big and small. Quality, creativity, and a dash of sweetness go into every batch.</p>
+      </div>
+    </section>
+
+    <!-- FLAVORS -->
+    <section id="flavors" class="flavors" aria-labelledby="flavors-title">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <h2 id="flavors-title" style="margin:0; font-family:'Fredoka One', 'Baloo 2', 'Poppins'">Our Flavors</h2>
+        <p style="margin:0; color:var(--muted)">Available as single orders, custom sets, and event platters. Seasonal swaps available—ask when ordering.</p>
+      </div>
+
+      <div class="flavor-grid">
+        <!-- Chocolate -->
+        <article class="card">
+          <img src="Pop images/chocolate.jpg" alt="Chocolate Delight cake pop">
+          <div>
+            <h3>Chocolate Delight</h3>
+            <p>Rich and moist chocolate cake with a milk chocolate coating — pure cocoa comfort.</p>
+          </div>
+        </article>
+
+        <!-- Vanilla -->
+        <article class="card">
+          <img src="Pop images/vanilla.jpg" alt="Classic Vanilla cake pop">
+          <div>
+            <h3>Classic Vanilla</h3>
+            <p>Fluffy vanilla cake dipped in smooth white chocolate — simple, elegant, timeless.</p>
+          </div>
+        </article>
+
+        <!-- Red Velvet -->
+        <article class="card">
+          <img src="Pop images/redvelvet.jpg" alt="Red Velvet Dream cake pop">
+          <div>
+            <h3>Red Velvet Dream</h3>
+            <p>Cream cheese frosting center and a velvety red coating — romantic and indulgent.</p>
+          </div>
+        </article>
+
+        <!-- Mint Choco Chip -->
+        <article class="card">
+          <img src="Pop images/mint.jpg" alt="Mint Choco Chip cake pop">
+          <div>
+            <h3>Mint Choco Chip</h3>
+            <p>Refreshing mint cake studded with chocolate chips — cool and crunchy.</p>
+          </div>
+        </article>
+
+        <!-- Salted Caramel -->
+        <article class="card">
+          <img src="Pop images/caramel.jpg" alt="Salted Caramel Crunch cake pop">
+          <div>
+            <h3>Salted Caramel Crunch</h3>
+            <p>Caramel cake topped with a sea salt drizzle and a satisfying crunch.</p>
+          </div>
+        </article>
+
+        <!-- Strawberry -->
+        <article class="card">
+          <img src="Pop images/strawberry.jpg" alt="Strawberry Bliss cake pop">
+          <div>
+            <h3>Strawberry Bliss</h3>
+            <p>Sweet strawberry cake decorated with candy pearls — bright and joyful.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" style="margin:0 0 10px; font-family:'Josefin Sans', 'Poppins'">Gallery</h2>
+      <p style="margin:0 0 12px; color:var(--muted)">A selection of recent batches — each set is uniquely decorated for the occasion.</p>
+      <div class="gallery-grid">
+        <img src="Pop images/gallery1.jpg" alt="Gallery image 1">
+        <img src="Pop images/gallery2.jpg" alt="Gallery image 2">
+        <img src="Pop images/gallery3.jpg" alt="Gallery image 3">
+        <img src="Pop images/gallery4.jpg" alt="Gallery image 4">
+        <img src="Pop images/gallery5.jpg" alt="Gallery image 5">
+        <img src="Pop images/gallery6.jpg" alt="Gallery image 6">
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title" style="margin:0 0 10px; font-family:'Fredoka One', 'Poppins'">Contact & Orders</h2>
+      <p style="margin:0 0 12px; color:var(--muted)">Questions, custom orders, or event requests — drop us a message and we'll reply with details and pricing.</p>
+
+      <form class="contact-form" action="#" method="post" onsubmit="alert('This form is a demo. Hook it up to your backend or a form service to collect messages.'); return false;">
+        <input type="text" name="name" placeholder="Your name" aria-label="Name" required>
+        <input type="email" name="email" placeholder="Your email" aria-label="Email" required>
+        <textarea name="message" placeholder="Message, date needed, and any special requests" aria-label="Message" required></textarea>
+        <div class="send">
+          <button class="btn" type="submit">Send Message</button>
+        </div>
+      </form>
+
+      <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start;">
+        <div style="flex:1; min-width:220px;">
+          <h4 style="margin:0 0 8px;">Location</h4>
+          <div style="height:150px; border-radius:12px; background:linear-gradient(180deg,#fff,#fff7f9); display:flex; align-items:center; justify-content:center; color:var(--muted); box-shadow:var(--shadow)">Map placeholder — add embedded map iframe or image</div>
+        </div>
+
+        <div style="flex:1; min-width:220px;">
+          <h4 style="margin:0 0 8px;">Hours</h4>
+          <p style="margin:0; color:var(--muted)">Orders & pickups by appointment. Message for availability and same-week orders.</p>
+          <h4 style="margin:12px 0 6px;">Phone</h4>
+          <p style="margin:0; color:var(--muted)">+63 9xx xxx xxxx (example)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS + NEWSLETTER -->
+    <section aria-labelledby="reviews-title" style="margin-top:18px;">
+      <h2 id="reviews-title" style="margin:0 0 8px;">Customer Reviews</h2>
+      <div class="reviews" aria-live="polite">
+        <div class="review">
+          <strong>“So cute and delicious!”</strong>
+          <p style="margin:8px 0 0; color:var(--muted)">— Mae R. (Birthday order). The kids loved the colors and the delivery was on time.</p>
+        </div>
+        <div class="review">
+          <strong>“Perfect for our baby shower.”</strong>
+          <p style="margin:8px 0 0; color:var(--muted)">— Carlo M. Wonderful service and beautiful packaging.</p>
+        </div>
+        <div class="review">
+          <strong>“Rich flavor and great texture.”</strong>
+          <p style="margin:8px 0 0; color:var(--muted)">— Jana L. Chocolate Delight was a crowd favorite.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <h3 style="margin:0 0 8px;">Join Our Newsletter</h3>
+        <p style="margin:0 0 8px; color:var(--muted)">Get new flavors, seasonal drops, and promotions in your inbox.</p>
+        <div class="newsletter">
+          <input type="email" placeholder="Enter your email" aria-label="Newsletter email">
+          <button class="nbtn" onclick="alert('Demo: connect this to Mailchimp/Formspree or your backend')">Sign Up</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <img src="Pop images/logo.png" alt="Pop n' Bites logo small" style="width:44px;height:44px;border-radius:50%">
+      <small>© 2025 Pop n’ Bites | Homemade Cake Pops</small>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <small class="muted">Follow us</small>
+      <div class="socials" aria-hidden="true">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4z"/><circle cx="17.5" cy="6.5" r="0.9"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 5 3.66 9.13 8.44 9.93v-7.03H8.08v-2.9h2.36V9.41c0-2.33 1.38-3.62 3.5-3.62. 01 0 0 0 0 0v2.5h-1.26c-1 0-1.31.62-1.31 1.25v1.51h2.23l-.36 2.9H12.36v7.03C17.14 21.2 22 17.07 22 12.07z"/></svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path d="M9 8v8.5a4.5 4.5 0 104.5-4.5V7.5h2.5v-2A7 7 0 119 8z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Small script to hide loader after content loaded -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      // Show loader at least briefly for animation continuity
+      setTimeout(function(){
+        var l = document.getElementById('loader');
+        if (l) l.classList.add('hidden');
+      }, 700);
+    });
+
+    // Optional: hide on window load too
+    window.addEventListener('load', function(){
+      var l = document.getElementById('loader');
+      if (l) l.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
